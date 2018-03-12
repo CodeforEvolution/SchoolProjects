@@ -30,17 +30,17 @@ public class Circle {
 	
 	public double arc_length(int degrees)
 	{
-		return (degrees/360) * circumf();
+		return (degrees / 360.0) * circumf();
 	}
 	
 	public double sector_area(int degrees)
 	{
-		return (degrees/360) * area();
+		return (degrees / 360.0) * area();
 	}
 	
 	public double rotations(int feet)
 	{
-		return feet / circumf();
+		return (feet * 12.0) / circumf();
 	}
 
 }
