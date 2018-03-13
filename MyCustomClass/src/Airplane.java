@@ -1,11 +1,18 @@
+import java.util.Random;
+import java.util.Scanner;
+
 
 public class Airplane {
 	private double planeYards = 0.0;
 	private double fuelGallons = 0.0;
 	private double distanceTraveled = 0.0;
+	private double money = 0.00;
 	private boolean isCommercial = false;
-	private boolean destroyed = false;
+	private boolean isDestroyed = false;
 	private String name = "";
+	
+	private Scanner in = new Scanner(System.in);
+	private Random r = new Random();
 	
 	public Airplane(String theName)
 	{
@@ -23,6 +30,47 @@ public class Airplane {
 		name = theName;
 	}
 	
+	void playForMoney()
+	{
+		String difficulty = "";
+		
+		System.out.println("Guess a number to win money!");
+		System.out.println("What level of difficulty? (easy, medium, hard): ");
+		difficulty = in.next().toLowerCase();
+		
+		if (difficulty.equals("easy"))
+		{
+			System.out.println("Guess a number! (0-2): ");
+			if (in.nextInt() == r.nextInt(3))
+			{
+				System.out.println("You have won $50!");
+				money =+ 50.00;
+			} else {
+				System.out.println("BAAAAHHHHH!!!! Sorry, wrong answer!");
+			}
+		} else if (difficulty.equals("medium")) {
+			System.out.println("Guess a number! (0-5): ");
+			if (in.nextInt() == r.nextInt(6))
+			{
+				System.out.println("You have won $100!");
+				money =+ 100.00;
+			} else {
+				System.out.println("BAAAAHHHHH!!!! Sorry, wrong answer!");
+			}
+		} else if (difficulty.equals("hard")) {
+			System.out.println("Guess a number! (0-10): ");
+			if (in.nextInt() == r.nextInt(11))
+			{
+				System.out.println("You have won $200!");
+				money =+ 200.00;
+			} else {
+				System.out.println("BAAAAHHHHH!!!! Sorry, wrong answer!");
+			}
+		} else {
+			System.out.println("That's not an option! Goodbye!");
+		}
+	}
+	
 	boolean flyYards(double yardsToFly)
 	{		
 		double yards = yardsToFly;
@@ -34,12 +82,8 @@ public class Airplane {
 			if (useFuel(0.25) == false)
 			{
 				System.out.println("Had to stop flying, not enough fuel!");
-				if (isCommercial())
-				{
-					System.out.println("Nice going, you killed 10,000,000,000,000,000 passengers!!!!!! AAAAAAAAAHHHHHHHHHH!!!!!");
-				} else {
-					System.out.println("Well, there goes another band.");
-				}
+				System.out.println("It seems we are going to craSH LAND!!!!!!! AAAAAAHHHH!");
+				isDestroyed = true;
 				return false;
 			}
 		} while(fuelRemaining() > 0.5 && yards > 0.0);
@@ -47,17 +91,7 @@ public class Airplane {
 		return true;
 	}
 	
-	String planeName()
-	{
-		return name;
-	}
-	
-	double fuelRemaining()
-	{
-		return fuelGallons;
-	}
-	
-	boolean useFuel(double gallons)
+	private boolean useFuel(double gallons)
 	{
 		if (fuelRemaining() < gallons)
 		{
@@ -68,9 +102,50 @@ public class Airplane {
 		return true;
 	}
 	
-	void refill(double gallons)
+	boolean repair()
 	{
-		fuelGallons =+ gallons;
+		System.out.println("I can repair your broken plane with all it's broken people!");
+		if (85 > money)
+		{
+			System.out.println("You, uh, need $85 to repair your plane, why not play some games?");
+			return false;
+		} else {
+			System.out.println("That'll be $85!");
+		}
+		
+		System.out.println("Pay this man? (y or n):");
+		if (in.next().charAt(0) == 'y')
+		{
+			System.out.println("Thank you for your business!");
+			money =- 85.00;
+			isDestroyed = false;
+			return true;
+		} else {
+			System.out.println("Well I am hurt!!! Goodbye Felisha!");
+			return false;
+		}
+	}
+	
+	boolean refill(double gallons)
+	{
+		double cost = 0.25 * gallons;
+		if (cost > money)
+		{
+			System.out.println("You don't have the required money!: $" + cost);
+			return false;
+		}
+		
+		System.out.println("Will you pay " + cost + " dollars for " + gallons + " gallons of gas? (y or n): ");
+		if (in.next().charAt(0) == 'y')
+		{
+			money =- cost;
+			fuelGallons =+ gallons;
+			System.out.println("Thank you for your business!");
+			return true;
+		} else {
+			System.out.println("Alright, goodbye!");
+			return false;
+		}
 	}
 	
 	double yardsTraveled()
@@ -85,6 +160,16 @@ public class Airplane {
 	
 	boolean isDestroyed()
 	{
-		return destroyed;
+		return isDestroyed;
+	}
+	
+	String planeName()
+	{
+		return name;
+	}
+	
+	double fuelRemaining()
+	{
+		return fuelGallons;
 	}
 }
