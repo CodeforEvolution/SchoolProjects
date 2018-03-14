@@ -7,6 +7,7 @@ public class Airplane {
 	private double fuelGallons = 0.0;
 	private double distanceTraveled = 0.0;
 	private double money = 0.00;
+	private boolean isAI = false;
 	private boolean isCommercial = false;
 	private boolean isDestroyed = false;
 	private String name = "";
@@ -18,7 +19,7 @@ public class Airplane {
 	{
 		planeYards = 15;
 		fuelGallons = 200;
-		isCommercial = false;
+		isCommercial = r.nextBoolean();
 		name = theName;
 	}
 	
@@ -28,46 +29,74 @@ public class Airplane {
 		fuelGallons = fuelInGallons;
 		isCommercial = commercial;
 		name = theName;
+		isAI = true;
 	}
 	
-	void playForMoney()
+	void playForMoney(boolean isAI)
 	{
 		String difficulty = "";
 		
-		System.out.println("Guess a number to win money!");
-		System.out.println("What level of difficulty? (easy, medium, hard): ");
-		difficulty = in.next().toLowerCase();
-		
-		if (difficulty.equals("easy"))
+		if (isAI)
 		{
-			System.out.println("Guess a number! (0-2): ");
-			if (in.nextInt() == r.nextInt(3))
+			int aiDifficulty = r.nextInt(2);
+			switch (aiDifficulty)
 			{
-				System.out.println("You have won $50!");
-				money =+ 50.00;
-			} else {
-				System.out.println("BAAAAHHHHH!!!! Sorry, wrong answer!");
-			}
-		} else if (difficulty.equals("medium")) {
-			System.out.println("Guess a number! (0-5): ");
-			if (in.nextInt() == r.nextInt(6))
-			{
-				System.out.println("You have won $100!");
-				money =+ 100.00;
-			} else {
-				System.out.println("BAAAAHHHHH!!!! Sorry, wrong answer!");
-			}
-		} else if (difficulty.equals("hard")) {
-			System.out.println("Guess a number! (0-10): ");
-			if (in.nextInt() == r.nextInt(11))
-			{
-				System.out.println("You have won $200!");
-				money =+ 200.00;
-			} else {
-				System.out.println("BAAAAHHHHH!!!! Sorry, wrong answer!");
+				case 0:
+					System.out.println("The enemy is going for an easy game.");
+					if (r.nextInt(2) == r.nextInt(2))
+					{
+						money += 50.00;
+					}
+				case 1:
+					System.out.println("The enemy is going for a so-so game!");
+					if (r.nextInt(5) == r.nextInt(5))
+					{
+						money += 100.00;
+					}
+				case 2:
+					System.out.println("The enemy is going for an EXTREME game!");
+					if (r.nextInt(10) == r.nextInt(10))
+					{
+						money += 200.00;
+					}
+
 			}
 		} else {
-			System.out.println("That's not an option! Goodbye!");
+			System.out.println("Guess a number to win money!");
+			System.out.println("What level of difficulty? (easy, medium, hard): ");
+			difficulty = in.next().toLowerCase();
+			
+			if (difficulty.equals("easy"))
+			{
+				System.out.println("Guess a number! (0-2): ");
+				if (in.nextInt() == r.nextInt(3))
+				{
+					System.out.println("You have won $50!");
+					money =+ 50.00;
+				} else {
+					System.out.println("BAAAAHHHHH!!!! Sorry, wrong answer!");
+				}
+			} else if (difficulty.equals("medium")) {
+				System.out.println("Guess a number! (0-5): ");
+				if (in.nextInt() == r.nextInt(6))
+				{
+					System.out.println("You have won $100!");
+					money =+ 100.00;
+				} else {
+					System.out.println("BAAAAHHHHH!!!! Sorry, wrong answer!");
+				}
+			} else if (difficulty.equals("hard")) {
+				System.out.println("Guess a number! (0-10): ");
+				if (in.nextInt() == r.nextInt(11))
+				{
+					System.out.println("You have won $200!");
+					money =+ 200.00;
+				} else {
+					System.out.println("BAAAAHHHHH!!!! Sorry, wrong answer!");
+				}
+			} else {
+				System.out.println("That's not an option! Goodbye!");
+			}
 		}
 	}
 	
@@ -102,27 +131,40 @@ public class Airplane {
 		return true;
 	}
 	
-	boolean repair()
+	boolean repair(boolean isAI)
 	{
-		System.out.println("I can repair your broken plane with all it's broken people!");
-		if (85 > money)
+		if (isAI == true)
 		{
-			System.out.println("You, uh, need $85 to repair your plane, why not play some games?");
+			if (85 > money)
+			{
+				money =- 85.00;
+				isDestroyed = false;
+				return true;
+			}
+			
 			return false;
 		} else {
-			System.out.println("That'll be $85!");
-		}
+			System.out.println("I can repair your broken plane with all it's broken people!");
 		
-		System.out.println("Pay this man? (y or n):");
-		if (in.next().charAt(0) == 'y')
-		{
-			System.out.println("Thank you for your business!");
-			money =- 85.00;
-			isDestroyed = false;
-			return true;
-		} else {
-			System.out.println("Well I am hurt!!! Goodbye Felisha!");
-			return false;
+			if (85 > money)
+			{
+				System.out.println("You, uh, need $85 to repair your plane, why not play some games?");
+				return false;
+			} else {
+				System.out.println("That'll be $85!");
+			}
+		
+			System.out.println("Pay this man? (y or n):");
+			if (in.next().charAt(0) == 'y')
+			{
+				System.out.println("Thank you for your business!");
+				money =- 85.00;
+				isDestroyed = false;
+				return true;
+			} else {
+				System.out.println("Well I am hurt!!! Goodbye Felisha!");
+				return false;
+			}
 		}
 	}
 	
@@ -151,6 +193,11 @@ public class Airplane {
 	double yardsTraveled()
 	{
 		return distanceTraveled;
+	}
+	
+	boolean isAI()
+	{
+		return isAI;
 	}
 	
 	boolean isCommercial()
