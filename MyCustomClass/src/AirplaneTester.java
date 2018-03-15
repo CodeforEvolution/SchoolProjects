@@ -17,12 +17,17 @@ public class AirplaneTester {
 		
 		System.out.println();
 		System.out.println("Your Enemy: Big Chin Airlines!");
+		System.out.println("Fly 1,000 yards to win!");
+		System.out.println();
 		thatAirplane = new Airplane("Big Chin Airlines", (r.nextInt(20) + 5), (r.nextInt(300) + 50), r.nextBoolean());
+		
 		
 		while ((myAirplane.yardsTraveled() < 1000) && (thatAirplane.yardsTraveled() < 1000))
 		{
-			System.out.println(choiceToString(youTakeAction(), myAirplane));
-			System.out.println(choiceToString(enemyTakesAction(), thatAirplane));
+			youTakeAction();
+			System.out.println();
+			enemyTakesAction();
+			System.out.println();
 		}
 		
 		System.out.println("Congragulations too......");
@@ -34,7 +39,7 @@ public class AirplaneTester {
 		} else if (myAirplane.yardsTraveled() < thatAirplane.yardsTraveled()) {
 			winnerName = thatAirplane.planeName();
 		} else {
-			winnerName = "Well, it was a tie!!!!! OH MY GOD MY MIND IS BLOWN!";
+			winnerName = "Well, it was a tie!!!!! OH MY GOSH MY MIND IS BLOWN!";
 		}
 		
 		System.out.println(winnerName.toUpperCase() + "!");
@@ -42,7 +47,7 @@ public class AirplaneTester {
 		System.out.println("Thank you for playing!");
 	}
 	
-	static int youTakeAction()
+	static void youTakeAction()
 	{
 		int choice = 0;
 		boolean ok = false;
@@ -51,9 +56,10 @@ public class AirplaneTester {
 		
 		do
 		{
-			System.out.println("0) Fly, 1) Refill Gas, 2) Play Bonus Game for Money: ");
+			System.out.println("0) Fly, 1) Refill Gas, 2) Play Bonus Game for Money 3) Repair Airplane: ");
+
 			choice = in.nextInt();
-			if (choice < 0 || choice > 2)
+			if (choice < 0 || choice > 3)
 			{
 				ok = false;
 				System.out.println("That not a proper option!");
@@ -63,11 +69,13 @@ public class AirplaneTester {
 			}
 		} while (ok == false);
 		
+		System.out.println("\n" + choiceToString(choice, myAirplane));
 		doAction(choice, myAirplane);
-		return choice;
+		
+		return;
 	}
 	
-	static int enemyTakesAction()
+	static void enemyTakesAction()
 	{
 		int choice = 0;
 		
@@ -78,24 +86,50 @@ public class AirplaneTester {
 			choice = r.nextInt(3);
 		}
 		
+		System.out.println("\n" + choiceToString(choice, thatAirplane));
+		System.out.println();
 		doAction(choice, thatAirplane);
-		return choice;
+
+		return;
 	}
 	
 	static void doAction(int theChoice, Airplane thePlane)
 	{
-		switch (theChoice)
+		if (thePlane.isDestroyed())
 		{
-			case 0:
-				thePlane.flyYards(50);
-			case 1:
-				thePlane.refill(r.nextInt(201));
-			case 2:
-				thePlane.playForMoney(thePlane.isAI());
-			case 3:
-				thePlane.repair(thePlane.isAI());
-			default:
-				System.out.println("Just, error man.");
+			switch (theChoice)
+			{
+				case 3:
+					thePlane.repair(thePlane.isAI());
+					break;
+				case 2:
+					thePlane.playForMoney(thePlane.isAI());
+					break;
+				case 0:
+				case 1:
+					System.out.println("You're a terrible parent! (Of an airplane of course :)) You need to repair your plane!");
+					break;
+				default:
+					System.out.println("Just, error man.");
+			}
+		} else {
+			switch (theChoice)
+			{
+				case 0:
+					thePlane.flyYards(100);
+					break;
+				case 1:
+					thePlane.refill(r.nextInt(201), thePlane.isAI());
+					break;
+				case 2:
+					thePlane.playForMoney(thePlane.isAI());
+					break;
+				case 3:
+					System.out.println("But, your plane is ok! How rude of you to judge a plane like that! :D");
+					break;
+				default:
+					System.out.println("Just, error man.");
+			}
 		}
 	}
 	

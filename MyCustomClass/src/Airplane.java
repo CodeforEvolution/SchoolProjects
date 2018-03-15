@@ -47,20 +47,25 @@ public class Airplane {
 					{
 						money += 50.00;
 					}
+					break;
 				case 1:
 					System.out.println("The enemy is going for a so-so game!");
 					if (r.nextInt(5) == r.nextInt(5))
 					{
 						money += 100.00;
 					}
+					break;
 				case 2:
 					System.out.println("The enemy is going for an EXTREME game!");
 					if (r.nextInt(10) == r.nextInt(10))
 					{
 						money += 200.00;
 					}
-
+					break;
+				default:
+					System.out.println("The AI just broke the 4th wall!");
 			}
+			System.out.println();
 		} else {
 			System.out.println("Guess a number to win money!");
 			System.out.println("What level of difficulty? (easy, medium, hard): ");
@@ -168,25 +173,41 @@ public class Airplane {
 		}
 	}
 	
-	boolean refill(double gallons)
+	boolean refill(double gallons, boolean AI)
 	{
-		double cost = 0.25 * gallons;
-		if (cost > money)
-		{
-			System.out.println("You don't have the required money!: $" + cost);
-			return false;
-		}
+		double cost = 0.0;
 		
-		System.out.println("Will you pay " + cost + " dollars for " + gallons + " gallons of gas? (y or n): ");
-		if (in.next().charAt(0) == 'y')
+		if (AI)
 		{
-			money =- cost;
-			fuelGallons =+ gallons;
-			System.out.println("Thank you for your business!");
-			return true;
+			cost = 0.2 * gallons;
+			if (cost > money)
+			{
+				return false;
+			} else {
+				money =- cost;
+				fuelGallons =+ gallons;
+				return true;
+			}
+			
 		} else {
-			System.out.println("Alright, goodbye!");
-			return false;
+			cost = 0.25 * gallons;
+			if (cost > money)
+			{
+				System.out.println("You don't have the required money!: $" + cost);
+				return false;
+			}
+			
+			System.out.println("Will you pay " + cost + " dollars for " + gallons + " gallons of gas? (y or n): ");
+			if (in.next().charAt(0) == 'y')
+			{
+				money =- cost;
+				fuelGallons =+ gallons;
+				System.out.println("Thank you for your business!");
+				return true;
+			} else {
+				System.out.println("Alright, goodbye!");
+				return false;
+			}
 		}
 	}
 	
