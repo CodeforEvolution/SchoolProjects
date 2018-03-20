@@ -4,7 +4,7 @@ public class Car {
 	private int milesPerGallon = 0;
 	private double gasTankSize = 0.0;
 	private int infoIndex = 0;
-	
+
 	public Car(String typeOCar, int MPG, double tankSizeGallons, int index)
 	{
 		carType = typeOCar;
@@ -33,10 +33,14 @@ public class Car {
 		return infoIndex;
 	}
 	
-	double calcPriceTanks(double tripInMiles, double priceOGas, double tripCost)
+	double calcFullTanks(double tripInMiles)
 	{
-		double filledTanks = (getSize() * getMPG()) / tripInMiles;
-		tripCost = filledTanks * getSize() * priceOGas;
-		return filledTanks;
+		double filledTanks = tripInMiles / (getSize() * getMPG());
+		return Math.ceil(filledTanks);
+	}
+
+	double calcTripCost(double filledTanks, double priceOGas)
+	{
+		return Math.ceil(filledTanks * getSize() * priceOGas);
 	}
 }

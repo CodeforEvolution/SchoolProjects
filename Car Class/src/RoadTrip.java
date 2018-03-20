@@ -29,21 +29,21 @@ public class RoadTrip {
 		printCarInfo(volvo);
 		printCarInfo(volkswagen);
 	}
-	
+
 	public static void printCarInfo(Car theCar)
 	{
 		double tripMiles = tripLengths[theCar.getInfoIndex()];
 		double tripGallons = tripMiles / theCar.getMPG();
-		double tripPrice = 0.0;
-		double tanksFull = theCar.calcPriceTanks(tripMiles, gasPrices[theCar.getInfoIndex()], tripPrice);
+		double tanksFull = theCar.calcFullTanks(tripMiles);
+		double thePrice = theCar.calcTripCost(tanksFull, gasPrices[theCar.getInfoIndex()]);
 		
 		System.out.println(theCar.getType() + " :");
 		System.out.println("\t Miles Per Gallon: " + theCar.getMPG());
 		System.out.println("\t Trip Length: " + tripMiles  + " miles");
-		System.out.println("\t Gallons Needed for Trip: " + tripGallons + "gallons");
+		System.out.println("\t Gallons Needed for Trip: " + tripGallons + " gallons");
 		System.out.println("\t Full Tanks of Gas Needed for Trip: " + tanksFull + " full tanks");
 		System.out.println("\t Gas Cost Per Gallon: $" + gasPrices[theCar.getInfoIndex()]);
-		System.out.println("\t Trip Cost: $" + tripPrice);
+		System.out.println("\t Trip Cost: $" + thePrice);
 		System.out.println();
 	}
 }
