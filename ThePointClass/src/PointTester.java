@@ -39,7 +39,7 @@ public class PointTester {
         System.out.println("Combined Vectors: Distance: " + bDist + " Angle: " + bAng);
 
 		double xDist = thePoint.calcXDist(otherPoint);
-		double yDist = thePoint.calcXDist(otherPoint);
+		double yDist = thePoint.calcYDist(otherPoint);
 		double lineDist = thePoint.distance(otherPoint);
 		String lineEquation = thePoint.equation(otherPoint);
 		Point theMid = thePoint.midpoint(otherPoint);
@@ -55,5 +55,7 @@ public class PointTester {
 		System.out.println("Equation of the line: " + lineEquation);
 		System.out.println("Midpoint of the line: " + theMid);
         System.out.println("Combined Vectors: Distance: " + addDist + " Angle: " + addAng);
+        
+        s.close();
 	}
 }

@@ -118,9 +118,6 @@ public class Point {
 
 	public void toVector(double outDistance, double outAngle)
 	{
-		double x = getX();
-		double y = getY();
-
 		outDistance = distance(new Point(0,0,false));
 		outAngle = Math.sin(calcYDist(new Point(0,0,false)) / calcXDist(new Point(0,0,false)));
 
