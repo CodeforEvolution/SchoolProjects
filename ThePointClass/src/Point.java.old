@@ -10,9 +10,8 @@ public class Point {
 		y = 0.0;
 	}
 
-	public Point(double theX, double theY/*, boolean isVector*/)
+	public Point(double XDist, double YAngle, boolean isVector)
 	{
-		/*
         if (isVector == true)
         {
             x = XDist;
@@ -22,10 +21,6 @@ public class Point {
             y = XDist * Math.asin(YAngle);
 
         }
-        */
-		
-		x = theX;
-		y = theY;
 	}
 
 	public double getX()
@@ -75,7 +70,7 @@ public class Point {
 		double midX = (a.getX() + b.getX()) / 2;
 		double midY = (a.getY() + b.getY()) / 2;
 
-		return new Point(midX, midY/*, false*/);
+		return new Point(midX, midY, false);
 	}
 
 	double calcXDist(Point otherPoint)
@@ -107,7 +102,7 @@ public class Point {
 			return "y = " + this.getY();
 		}
 
-		String finalEquation = "y = ";
+		String finalEquation = "y = mx + b";
 
 		double xDist = calcXDist(endLinePoint);
 		double yDist = calcYDist(endLinePoint);
@@ -115,12 +110,12 @@ public class Point {
 		double interY = endLinePoint.getY() - ((yDist/xDist) * endLinePoint.getX());
 		String slope = xDist + "/" + yDist;
 
-		finalEquation += slope + "x + ";
-		finalEquation += Double.toString(interY);
+		finalEquation.replaceFirst("m", slope);
+		finalEquation.replaceFirst("b", Double.toString(interY));
 
 		return finalEquation;
 	}
-/*
+
 	public void toVector(double outDistance, double outAngle)
 	{
 		outDistance = distance(new Point(0,0,false));
@@ -148,5 +143,4 @@ public class Point {
         
 		return;
 	}
-*/
 }
