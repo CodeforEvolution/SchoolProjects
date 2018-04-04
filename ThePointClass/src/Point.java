@@ -4,6 +4,7 @@ public class Point {
 	private double x;
 	private double y;
 
+	
 	public Point()
 	{
 		x = 0.0;
@@ -40,7 +41,7 @@ public class Point {
 
 	public String toString()
 	{
-		return "(" + x + "," + y + ")";
+		return "(" + x + ", " + y + ")";
 	}
 
 	public int quadrant()
@@ -113,7 +114,7 @@ public class Point {
 		double yDist = calcYDist(endLinePoint);
 
 		double interY = endLinePoint.getY() - ((yDist/xDist) * endLinePoint.getX());
-		String slope = xDist + "/" + yDist;
+		String slope = yDist + "/" + xDist;
 
 		finalEquation += slope + "x + ";
 		finalEquation += Double.toString(interY);
