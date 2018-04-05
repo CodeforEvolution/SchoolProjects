@@ -4,6 +4,9 @@ import java.util.Scanner;
 
 
 public class CrapsGame {
+	static Scanner in = new Scanner(System.in);
+	static NumberFormat toMoney = NumberFormat.getCurrencyInstance(Locale.getDefault());
+	
 	public static void main(String[] args)
 	{
 		Die aDie = new Die();
@@ -11,10 +14,7 @@ public class CrapsGame {
 		double outcome = 0.0;
 		char again = 'n';
 		double bet = 0.0;
-		double myMoney = 200.0;
-		Scanner in = new Scanner(System.in);
-		NumberFormat toMoney = NumberFormat.getCurrencyInstance(Locale.getDefault());
-		
+		double myMoney = 1000.0;
 		
 		System.out.println("Welcome to the Game of Craps!");
 		System.out.println("This a game of action and money!!!!!");
@@ -43,14 +43,17 @@ public class CrapsGame {
 				}
 			} while (bet > myMoney);
 
-			myMoney =- bet;
+			myMoney -= bet;
 			
 			in.useDelimiter("\n");
-			System.out.println("\n Press enter when ready: ");
+			System.out.println("\nPress enter when ready: ");
 			in.next();
 			in.reset();
 			
-			System.out.println("\nHere, we, go!");
+			System.out.println("===============");
+			System.out.println(" Here, we, go!");
+			System.out.println("===============");
+			
 			aDie.roll();
 			bDie.roll();
 			
@@ -69,7 +72,7 @@ public class CrapsGame {
 				System.out.println("Warning! Something weird is going on...");
 			}
 			
-			System.out.println("You now have " + toMoney.format(myMoney) + " !");
+			System.out.println("You now have " + toMoney.format(myMoney) + "!");
 			System.out.println("Would you like to play, again? (y or n):");
 			again = in.next().charAt(0);
 		} while (again == 'y' && myMoney > 0.0);
@@ -82,8 +85,8 @@ public class CrapsGame {
 			System.out.println("==============================");
 		
 			System.out.println("==============================");
-			System.out.println(" You now have: $" + myMoney + "!");
-			System.out.println("==============================");
+			System.out.println(" You can walk out with: $" + myMoney + "!");
+			System.out.println("=================================");
 		} else {
 			System.out.println("Sorry, but you're broke! :( Goodbye now!");
 		}
@@ -125,7 +128,23 @@ public class CrapsGame {
 		
 		do
 		{
-			System.out.println("Another roll! Here we go!");
+			in.useDelimiter("\n");
+			System.out.println("\nPress enter when ready: ");
+			in.next();
+			in.reset();
+			
+			System.out.println("\nWould you like to bet more money? ;D (y or n)");
+			if (in.next().charAt(0) == 'y')
+			{
+				System.out.println("How much?: ");
+				bet += in.nextDouble();
+				System.out.println("Now we're talking!");
+			}
+			
+			System.out.println("===========================");
+			System.out.println(" Another roll! Here we go!");
+			System.out.println("===========================");
+								
 			d1.roll();
 			d2.roll();
 			lookAtRoll(d1, d2);
