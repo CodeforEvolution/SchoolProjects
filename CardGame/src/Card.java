@@ -3,28 +3,42 @@ import java.util.Random;
 
 public class Card {
 	enum Suit
-	{HEARTS, DIAMONDS, CLUBS, SPADES, UNSETS}
+	{
+		HEARTS, DIAMONDS, CLUBS, SPADES, UNSETS;
+		public static Suit getRandomSuit() {
+			Random random = new Random();
+			return values()[random.nextInt(values().length - 1)];
+		}
+	}
 	
 	enum Type
-	{TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE, UNSETT}
+	{
+		TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE, UNSETT;
+		public static Type getRandomType() {
+			Random random = new Random();
+	        return values()[random.nextInt(values().length - 1)];
+		}
+	}
 	
 	enum CColor
-	{RED, BLACK, UNSETC}
+	{
+		RED, BLACK, UNSETC;
+		public static CColor getRandomCColor() {
+			Random random = new Random();
+			return values()[random.nextInt(values().length - 1)];
+		}
+	}
 	
 	private Suit ourSuit = Suit.UNSETS;
 	private Type ourType = Type.UNSETT;
 	private CColor ourColor = CColor.UNSETC;
 	
-	private Random r = new Random();
-	
 	//Generates Randomly
 	public Card()
-	{
-		int suitIndex = r.nextInt(4) + 1;
-		int typeIndex = r.nextInt(13) + 1;
-		
-		ourSuit = Suit.valueOf(Integer.toString(suitIndex));
-		ourType = Type.valueOf(Integer.toString(typeIndex));
+	{		
+		ourSuit = Suit.getRandomSuit();
+		ourType = Type.getRandomType();
+		ourColor = CColor.getRandomCColor();
 	}
 	
 	//Sets Card Directly
@@ -35,9 +49,22 @@ public class Card {
 		ourColor = theColor;
 	}
 	
+	public Suit getSuit()
+	{
+		return ourSuit;
+	}
 	
+	public CColor getColor()
+	{
+		return ourColor;
+	}
 	
-	public String toString()
+	public Type getType()
+	{
+		return ourType;
+	}
+	
+	public String getCard()
 	{
 		String outStr = "The ";
 		
@@ -131,5 +158,10 @@ public class Card {
 		}
 		
 		return outStr;
+	}
+	
+	public String toString()
+	{
+		return getCard();
 	}
 }
