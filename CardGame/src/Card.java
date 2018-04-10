@@ -164,4 +164,91 @@ public class Card {
 	{
 		return getCard();
 	}
+	
+	public static Card fromString(String inColor, String inType, String inSuit)
+	{
+		CColor color = CColor.UNSETC;
+		Type type = Type.UNSETT;
+		Suit suit = Suit.UNSETS;
+		
+		switch (inColor.toLowerCase())
+		{
+		case "red":
+			color = CColor.RED;
+			break;
+		case "black":
+			color = CColor.BLACK;
+			break;
+		default:
+			color = CColor.UNSETC;
+			break;
+		}
+		
+		switch (inType.toLowerCase())
+		{
+		case "ace":
+			type = Type.ACE;
+			break;
+		case "eight":
+			type = Type.EIGHT;
+			break;
+		case "five":
+			type = Type.FIVE;
+			break;
+		case "four":
+			type = Type.FOUR;
+			break;
+		case "jack":
+			type = Type.JACK;
+			break;
+		case "king":
+			type = Type.KING;
+			break;
+		case "nine":
+			type = Type.NINE;
+			break;
+		case "queen":
+			type = Type.QUEEN;
+			break;
+		case "seven":
+			type = Type.SEVEN;
+			break;
+		case "six":
+			type = Type.SIX;
+			break;
+		case "ten":
+			type = Type.TEN;
+			break;
+		case "three":
+			type = Type.THREE;
+			break;
+		case "two":
+			type = Type.TWO;
+			break;
+		default:
+			type = Type.UNSETT;
+			break;
+		}
+		
+		switch (inSuit.toLowerCase())
+		{
+		case "clubs":
+			suit = Suit.CLUBS;
+			break;
+		case "diamonds":
+			suit = Suit.DIAMONDS;
+			break;
+		case "hearts":
+			suit = Suit.HEARTS;
+			break;
+		case "spades":
+			suit = Suit.SPADES;
+			break;
+		default:
+			suit = Suit.UNSETS;
+			break;		
+		}
+		
+		return new Card(color, type, suit);
+	}
 }

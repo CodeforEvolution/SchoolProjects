@@ -55,9 +55,21 @@ public class CardGameTester {
 			guessCard = null;
 			guessCard = new Card();
 			
-
+			outCome = checkRulesForMoney(askGuessForMode(modeChoice), guessCard, bet, modeChoice);
 			
-			outCome = checkRulesForMoney(askGuessForMode(modeChoice), guessCard, bet);
+			if (outCome > 0)
+			{
+				System.out.println("\nYou did it!!! You've got money!");
+			}
+			else if (outCome < 0)
+			{
+				System.out.println("\nIt seems your pockets are a bit emptier, you've lost in other words. :(");
+			}
+			else
+			{
+				System.out.println("\nIt seems you haven't gained or lost any money, talk about a win-win scenario!");
+			}
+			
 			myMoney += outCome;
 			
 			System.out.println("You now have " + toMoney.format(myMoney) + "!");
@@ -84,17 +96,58 @@ public class CardGameTester {
 		in.close();
 	}
 	
-	private static double checkRulesForMoney(String theGuess, Card theCard, double theBet)
+	private static double checkRulesForMoney(String[] theGuess, Card theCard, double theBet, int theMode)
 	{
 		double outMoney = 0.0;
+		Card ourCard;
+	
+		switch (theMode)
+		{
+			case 0:
+				ourCard = Card.fromString(theGuess[0], theGuess[1], theGuess[2]);
+				if (theCard.getColor() == ourCard.getColor())
+				{
+					outMoney = theBet * 2;
+				}
+				break;
+			case 1:
+				ourCard = Card.fromString(theGuess[0], theGuess[1], theGuess[2]);
+				if (theCard.getSuit() == ourCard.getSuit())
+				{
+					outMoney = theBet * 3;
+				}
+				break;
+			case 2:
+				ourCard = Card.fromString(theGuess[0], theGuess[1], theGuess[2]);
+				if (theCard.getType() == ourCard.getType())
+				{
+					outMoney = theBet * 5;
+				}
+				break;
+			case 3:
+				ourCard = Card.fromString(theGuess[0], theGuess[1], theGuess[2]);
+				if (theCard == ourCard)
+				{
+					outMoney = theBet * 10;
+				}
+				break;
+			default:
+				System.out.println("Invalid mode given!");
+				break;
+		}
+		
 		
 		
 		return outMoney;
 	}
 	
-	private static String askGuessForMode(int mode)
+	private static String[] askGuessForMode(int mode)
 	{
-		String guess = "";
+		String[] guess = new String[3];
+		guess[0] = "";
+		guess[1] = "";
+		guess[2] = "";
+		
 		boolean guessValid = false;
 		
 		switch (mode)
@@ -104,9 +157,9 @@ public class CardGameTester {
 				do
 				{
 					System.out.println("Guess the card's color! (Red or Black): ");
-					guess = in.next();
+					guess[0] = in.next();
 					
-					if (guess.equalsIgnoreCase("Red") || guess.equalsIgnoreCase("Black"))
+					if (guess[0].equalsIgnoreCase("Red") || guess[0].equalsIgnoreCase("Black"))
 					{
 						guessValid = true;
 					}
@@ -125,10 +178,10 @@ public class CardGameTester {
 				{
 					System.out.println("Guess the card's suit!");
 					System.out.println("(Hearts, Clubs, Diamonds, or Spades)? : ");
-					guess = in.next();
+					guess[1] = in.next();
 					
-					if (guess.equalsIgnoreCase("Hearts") || guess.equalsIgnoreCase("Clubs") || 
-						guess.equalsIgnoreCase("Diamonds") || guess.equalsIgnoreCase("Spades"))
+					if (guess[1].equalsIgnoreCase("Hearts") || guess[1].equalsIgnoreCase("Clubs") || 
+						guess[1].equalsIgnoreCase("Diamonds") || guess[1].equalsIgnoreCase("Spades"))
 					{
 						guessValid = true;
 					}
@@ -147,15 +200,15 @@ public class CardGameTester {
 				{
 					System.out.println("Guess the card's type!");
 					System.out.println("(TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, or ACE)? : ");
-					guess = in.next();
+					guess[2] = in.next();
 					
-					if (guess.equalsIgnoreCase("TWO") || guess.equalsIgnoreCase("THREE") || 
-						guess.equalsIgnoreCase("FOUR") || guess.equalsIgnoreCase("FIVE") ||
-						guess.equalsIgnoreCase("SIX") || guess.equalsIgnoreCase("SEVEN") || 
-						guess.equalsIgnoreCase("EIGHT") || guess.equalsIgnoreCase("NINE") ||
-						guess.equalsIgnoreCase("TEN") || guess.equalsIgnoreCase("JACK") || 
-						guess.equalsIgnoreCase("QUEEN") || guess.equalsIgnoreCase("KING") ||
-						guess.equalsIgnoreCase("ACE"))
+					if (guess[2].equalsIgnoreCase("TWO") || guess[2].equalsIgnoreCase("THREE") || 
+						guess[2].equalsIgnoreCase("FOUR") || guess[2].equalsIgnoreCase("FIVE") ||
+						guess[2].equalsIgnoreCase("SIX") || guess[2].equalsIgnoreCase("SEVEN") || 
+						guess[2].equalsIgnoreCase("EIGHT") || guess[2].equalsIgnoreCase("NINE") ||
+						guess[2].equalsIgnoreCase("TEN") || guess[2].equalsIgnoreCase("JACK") || 
+						guess[2].equalsIgnoreCase("QUEEN") || guess[2].equalsIgnoreCase("KING") ||
+						guess[2].equalsIgnoreCase("ACE"))
 					{
 						guessValid = true;
 					}
@@ -170,18 +223,53 @@ public class CardGameTester {
 			case 3:
 			{
 				do
-				{
-					String color = "";
-					String type = "";
-					String suit = "";
-					
+				{					
 					System.out.println("Guess the entire card!");
 					System.out.println("For example: (Black Six of hearts): ");
-					guess = in.next();
+					String dissambly = in.next();
 					
 					//Let's take apart a string!
-					guess.toLowerCase();
-					guess.
+					dissambly.toLowerCase();				
+					
+					String[] splitStr = new String[dissambly.split(" ").length];
+					splitStr = dissambly.split(" ");
+					
+					System.out.println(splitStr);
+					
+					if (splitStr.length > 4)
+					{
+						System.out.println("That's not a valid guess! Here we go again...");
+						guessValid = false;
+					}
+					else if (
+							 //Check Card Color
+							 (splitStr[0].equalsIgnoreCase("Red") || splitStr[0].equalsIgnoreCase("Black")) &&
+							 //Check Card Suit
+							 (splitStr[1].equalsIgnoreCase("Hearts") || splitStr[1].equalsIgnoreCase("Clubs") ||
+							  splitStr[1].equalsIgnoreCase("Diamonds") || splitStr[1].equalsIgnoreCase("Spades")) &&
+							  //Check Card Type
+							 (splitStr[3].equalsIgnoreCase("TWO") || splitStr[3].equalsIgnoreCase("THREE") || 
+							  splitStr[3].equalsIgnoreCase("FOUR") || splitStr[3].equalsIgnoreCase("FIVE") ||
+							  splitStr[3].equalsIgnoreCase("SIX") || splitStr[3].equalsIgnoreCase("SEVEN") || 
+							  splitStr[3].equalsIgnoreCase("EIGHT") || splitStr[3].equalsIgnoreCase("NINE") ||
+							  splitStr[3].equalsIgnoreCase("TEN") || splitStr[3].equalsIgnoreCase("JACK") || 
+							  splitStr[3].equalsIgnoreCase("QUEEN") || splitStr[3].equalsIgnoreCase("KING") ||
+							  splitStr[3].equalsIgnoreCase("ACE"))
+							)
+							
+					{
+						System.out.println("Alright! Now let's see...");
+						
+						guess[0] = splitStr[0];
+						guess[1] = splitStr[1];
+						guess[2] = splitStr[3];
+						guessValid = true;
+					}
+					else
+					{
+						System.out.println("That's not a good answer...try again!");
+						guessValid = false;
+					}
 					
 				} while (guessValid == false);
 				break;
