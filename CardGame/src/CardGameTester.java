@@ -10,12 +10,15 @@ public class CardGameTester {
 	public static void main(String[] args)
 	{
 		//Instantiate all of our variables
+		boolean valid = false;
 		char again = 'n';
+		int difficulty = 0;
 		int modeChoice = 0; 
 		double outCome = 0.0;
 		double bet = 0.0;
 		double myMoney = 1000.0;
-		Card guessCard;
+		Card guessCard1;
+		Card guessCard2;
 		
 		System.out.println("====================================");
 		System.out.println(" Welcome to the card guessing game!");
@@ -26,24 +29,66 @@ public class CardGameTester {
 		
 		do
 		{
+			System.out.println("First of all, do you want to play an easy or hard mode?");
+			System.out.println("Easy mode has two cards meaning twice the chance to win!");
+			System.out.println("You can't guess a color easy mode though, not to mention you will earn less money than in hard.");
+			System.out.println("Hard has one card to guess at.");
+			
+			System.out.println("\nSo, (0) easy or (1) hard?: ");
+			difficulty = in.nextInt();
+			
+			if (difficulty > 1 || difficulty < 0)
+			{
+				System.out.println("That's not a mode...");
+				System.out.println("I'll ask again...\n");
+			}
+		} while (difficulty > 1 || difficulty < 0);
+		
+		do
+		{
 			System.out.println("You now have: " + toMoney.format(myMoney));
+			
+			valid = true;
 			
 			do
 			{
-				System.out.println("The Odds: Card Color = 2:1, Suit = 4:1, Type: 13:1, Exact Card: 52:1");
-				System.out.println("Money in return: Card Color = bet * 2, Suit = bet * 3, Type = bet * 5, Exact Card = bet * 10");
-				System.out.println("\nI'd like to ask you, what do you want to guess?");
-				System.out.println("Guess: (0) Card Color, (1) Card Suit, (2) Card Type, (3) Exact Card ");
+				if (difficulty == 1)
+				{
+					System.out.println("The Odds: Suit = 4:1, Type: 13:1, Exact Card: 52:1");
+					System.out.println("Money in return: Suit = bet * 2, Type = bet * 3, Exact Card = bet * 8");
+					System.out.println("\nI'd like to ask you, what do you want to guess?");
+					System.out.println("Guess: (0) Card Suit, (1) Card Type, (2) Exact Card ");
+				}
+				else
+				{
+					System.out.println("The Odds: Card Color = 2:1, Suit = 4:1, Type: 13:1, Exact Card: 52:1");
+					System.out.println("Money in return: Card Color = bet * 2, Suit = bet * 3, Type = bet * 5, Exact Card = bet * 10");
+					System.out.println("\nI'd like to ask you, what do you want to guess?");
+					System.out.println("Guess: (0) Card Color, (1) Card Suit, (2) Card Type, (3) Exact Card ");
+				}
 				
 				modeChoice = in.nextInt();
 				
-				if (modeChoice < 0 || modeChoice > 3)
+				if (difficulty == 1)
 				{
-					System.out.println("That's not a option...");
-					System.out.println("I'll ask again...\n");
+					if (modeChoice < 0 || modeChoice > 2)
+					{
+						System.out.println("That's not a option...");
+						System.out.println("I'll ask again...\n");
+						valid = false;
+					}
+				}
+				else
+				{
+					if (modeChoice < 0 || modeChoice > 3)
+					{
+						System.out.println("That's not a option...");
+						System.out.println("I'll ask again...\n");
+						valid = false;
+					}
 				}
 				
-			} while (modeChoice < 0 || modeChoice > 3);
+			} while (valid == false);
 			
 			System.out.println("Now how much money is on the table? ;D : ");
 			bet = in.nextDouble();
@@ -52,22 +97,24 @@ public class CardGameTester {
 			
 			System.out.println("\nAlright, here, we, GO!!!");
 			
-			guessCard = null;
-			guessCard = new Card();
+			guessCard1 = null;
+			guessCard1 = new Card();
+			guessCard2 = null;
+			guessCard2 = new Card();
 			
-			outCome = checkRulesForMoney(askGuessForMode(modeChoice), guessCard, bet, modeChoice);
+			outCome = checkRulesForMoney(askGuessForMode(modeChoice), guessCard1, guessCard2, bet, modeChoice);
 			
 			if (outCome > 0)
 			{
 				System.out.println("\nYou did it!!! You've got money!");
 			}
-			else if (outCome < 0)
+			else if (outCome == 0)
 			{
 				System.out.println("\nIt seems your pockets are a bit emptier, you've lost in other words. :(");
 			}
 			else
 			{
-				System.out.println("\nIt seems you haven't gained or lost any money, talk about a win-win scenario!");
+				System.out.println("\nUh, error with detecting outcome!");
 			}
 			
 			myMoney += outCome;
@@ -75,6 +122,7 @@ public class CardGameTester {
 			System.out.println("You now have " + toMoney.format(myMoney) + "!");
 			System.out.println("Would you like to play, again? (y or n):");
 			again = in.next().charAt(0);
+			System.out.println();
 		} while (again == 'y' && myMoney > 0);
 		
 		
@@ -85,9 +133,7 @@ public class CardGameTester {
 			System.out.println(" Thank you for playing the card guessing game! :D");
 			System.out.println("==================================================");
 		
-			System.out.println("==============================");
-			System.out.println(" You can walk out with: " + toMoney.format(myMoney) + "!");
-			System.out.println("=================================");
+			System.out.println("\nYou can walk out with: " + toMoney.format(myMoney) + "!");
 		} else {
 			System.out.println("Yeah...you've gone bankrupt... :/ Oops...");
 			System.out.println("Bye now!");
@@ -96,11 +142,11 @@ public class CardGameTester {
 		in.close();
 	}
 	
-	private static double checkRulesForMoney(String[] theGuess, Card theCard, double theBet, int theMode)
+	private static double checkRulesForMoney(String[] theGuess, Card theCard, Card card2, double theBet, int theMode)
 	{
 		double outMoney = 0.0;
 		Card ourCard;
-	
+		
 		switch (theMode)
 		{
 			case 0:
@@ -226,16 +272,25 @@ public class CardGameTester {
 				{					
 					System.out.println("Guess the entire card!");
 					System.out.println("For example: (Black Six of hearts): ");
+					in.useDelimiter("\n");
 					String dissambly = in.next();
+					in.reset();
 					
 					//Let's take apart a string!
 					dissambly.toLowerCase();				
 					
 					String[] splitStr = new String[dissambly.split(" ").length];
+					
+//					System.out.println("\nArray Length: " + splitStr.length + "\n");
+					
 					splitStr = dissambly.split(" ");
-					
-					System.out.println(splitStr);
-					
+/*					
+					System.out.println("\nArray Contents:");
+					System.out.println(splitStr[0]);
+					System.out.println(splitStr[1]);
+					System.out.println(splitStr[2]);
+					System.out.println(splitStr[3]);
+*/					
 					if (splitStr.length > 4)
 					{
 						System.out.println("That's not a valid guess! Here we go again...");
@@ -244,17 +299,17 @@ public class CardGameTester {
 					else if (
 							 //Check Card Color
 							 (splitStr[0].equalsIgnoreCase("Red") || splitStr[0].equalsIgnoreCase("Black")) &&
-							 //Check Card Suit
-							 (splitStr[1].equalsIgnoreCase("Hearts") || splitStr[1].equalsIgnoreCase("Clubs") ||
-							  splitStr[1].equalsIgnoreCase("Diamonds") || splitStr[1].equalsIgnoreCase("Spades")) &&
 							  //Check Card Type
-							 (splitStr[3].equalsIgnoreCase("TWO") || splitStr[3].equalsIgnoreCase("THREE") || 
-							  splitStr[3].equalsIgnoreCase("FOUR") || splitStr[3].equalsIgnoreCase("FIVE") ||
-							  splitStr[3].equalsIgnoreCase("SIX") || splitStr[3].equalsIgnoreCase("SEVEN") || 
-							  splitStr[3].equalsIgnoreCase("EIGHT") || splitStr[3].equalsIgnoreCase("NINE") ||
-							  splitStr[3].equalsIgnoreCase("TEN") || splitStr[3].equalsIgnoreCase("JACK") || 
-							  splitStr[3].equalsIgnoreCase("QUEEN") || splitStr[3].equalsIgnoreCase("KING") ||
-							  splitStr[3].equalsIgnoreCase("ACE"))
+							 (splitStr[1].equalsIgnoreCase("TWO") || splitStr[1].equalsIgnoreCase("THREE") || 
+							  splitStr[1].equalsIgnoreCase("FOUR") || splitStr[1].equalsIgnoreCase("FIVE") ||
+							  splitStr[1].equalsIgnoreCase("SIX") || splitStr[1].equalsIgnoreCase("SEVEN") || 
+							  splitStr[1].equalsIgnoreCase("EIGHT") || splitStr[1].equalsIgnoreCase("NINE") ||
+							  splitStr[1].equalsIgnoreCase("TEN") || splitStr[1].equalsIgnoreCase("JACK") || 
+							  splitStr[1].equalsIgnoreCase("QUEEN") || splitStr[1].equalsIgnoreCase("KING") ||
+							  splitStr[1].equalsIgnoreCase("ACE")) &&
+							 //Check Card Suit
+							 (splitStr[3].equalsIgnoreCase("Hearts") || splitStr[3].equalsIgnoreCase("Clubs") ||
+							  splitStr[3].equalsIgnoreCase("Diamonds") || splitStr[3].equalsIgnoreCase("Spades"))
 							)
 							
 					{

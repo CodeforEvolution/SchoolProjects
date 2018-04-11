@@ -171,82 +171,99 @@ public class Card {
 		Type type = Type.UNSETT;
 		Suit suit = Suit.UNSETS;
 		
-		switch (inColor.toLowerCase())
+		String colorStr = inColor.toLowerCase(); 
+		String typeStr = inType.toLowerCase();
+		String suitStr = inSuit.toLowerCase();
+		
+		if (colorStr.equals("red"))
 		{
-		case "red":
 			color = CColor.RED;
-			break;
-		case "black":
+		}
+		else if (colorStr.equals("black"))
+		{
 			color = CColor.BLACK;
-			break;
-		default:
+		}
+		else
+		{
 			color = CColor.UNSETC;
-			break;
 		}
 		
-		switch (inType.toLowerCase())
+		if (typeStr.equals("ace"))
 		{
-		case "ace":
 			type = Type.ACE;
-			break;
-		case "eight":
+		}
+		else if (typeStr.equals("eight"))
+		{
 			type = Type.EIGHT;
-			break;
-		case "five":
+		}
+		else if (typeStr.equals("five"))
+		{
 			type = Type.FIVE;
-			break;
-		case "four":
+		}
+		else if (typeStr.equals("four"))
+		{
 			type = Type.FOUR;
-			break;
-		case "jack":
+		}
+		else if (typeStr.equals("jack"))
+		{
 			type = Type.JACK;
-			break;
-		case "king":
+		}
+		else if (typeStr.equals("king"))
+		{
 			type = Type.KING;
-			break;
-		case "nine":
+		}
+		else if (typeStr.equals("nine"))
+		{
 			type = Type.NINE;
-			break;
-		case "queen":
+		}
+		else if (typeStr.equals("queen"))
+		{
 			type = Type.QUEEN;
-			break;
-		case "seven":
+		}
+		else if (typeStr.equals("seven"))
+		{
 			type = Type.SEVEN;
-			break;
-		case "six":
+		}
+		else if (typeStr.equals("six"))
+		{
 			type = Type.SIX;
-			break;
-		case "ten":
+		}
+		else if (typeStr.equals("ten"))
+		{
 			type = Type.TEN;
-			break;
-		case "three":
+		}
+		else if (typeStr.equals("three"))
+		{
 			type = Type.THREE;
-			break;
-		case "two":
+		}
+		else if (typeStr.equals("two"))
+		{
 			type = Type.TWO;
-			break;
-		default:
+		}
+		else
+		{
 			type = Type.UNSETT;
-			break;
 		}
 		
-		switch (inSuit.toLowerCase())
+		if (suitStr.equals("clubs"))
 		{
-		case "clubs":
 			suit = Suit.CLUBS;
-			break;
-		case "diamonds":
+		}
+		else if (suitStr.equals("diamonds"))
+		{
 			suit = Suit.DIAMONDS;
-			break;
-		case "hearts":
+		}
+		else if (suitStr.equals("hearts"))
+		{
 			suit = Suit.HEARTS;
-			break;
-		case "spades":
+		}
+		else if (suitStr.equals("spades"))
+		{
 			suit = Suit.SPADES;
-			break;
-		default:
+		}
+		else
+		{
 			suit = Suit.UNSETS;
-			break;		
 		}
 		
 		return new Card(color, type, suit);
