@@ -4,7 +4,7 @@ import java.util.Random;
 public class Card {
 	enum Suit
 	{
-		HEARTS, DIAMONDS, CLUBS, SPADES, UNSETS;
+		DIAMONDS, CLUBS, HEARTS, SPADES, UNSETS;
 		public static Suit getRandomSuit() {
 			Random random = new Random();
 			return values()[random.nextInt(values().length - 1)];
