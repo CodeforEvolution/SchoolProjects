@@ -12,7 +12,7 @@ public class Spinner {
 		
 	}
 	
-	public static void spinIt()
+	public void spinIt()
 	{
 		Random r = new Random();
 		
@@ -22,7 +22,7 @@ public class Spinner {
 		
 	}
 	
-	public static String getColorFromSpin(int spin)
+	public String getColorFromSpin(int spin)
 	{
 		String theColor = "";
 		
@@ -51,17 +51,17 @@ public class Spinner {
 		return theColor;
 	}
 	
-	public static String getColor()
+	public String getColor()
 	{
 		return currentColor;
 	}
 	
-	public static int getNumber()
+	public int getNumber()
 	{
 		return currentSpin;
 	}
 	
-	public static String getEvenOdd()
+	public String getEvenOdd()
 	{
 		if (currentSpin % 2 == 0)
 		{

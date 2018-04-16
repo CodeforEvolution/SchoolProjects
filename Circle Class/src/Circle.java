@@ -13,6 +13,14 @@ public class Circle {
 		radius = radiusInInches;
 	}
 	
+	public void addRadius(Circle otherCircle)
+	{
+		int radiusSum = this.getRadius() + otherCircle.getRadius();
+		
+		this.radius = radiusSum - 1;
+		otherCircle.radius = 1;
+	}
+	
 	public int getRadius()
 	{
 		return radius;
@@ -41,6 +49,11 @@ public class Circle {
 	public double rotations(int feet)
 	{
 		return (feet * 12.0) / circumf();
+	}
+	
+	public String toString()
+	{
+		return "Radius: " + radius;
 	}
 
 }
