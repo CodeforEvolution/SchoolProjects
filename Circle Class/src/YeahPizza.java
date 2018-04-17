@@ -12,7 +12,7 @@ public class YeahPizza {
 		Circle pizzaSmall;
 		Circle pizzaBig;
 		int diameter = 0;
-		double slices = 0.0;
+		int slices = 0;
 		double price = 0.0;
 		
 		System.out.println("It's time to make some pizza! ;)");
@@ -21,7 +21,7 @@ public class YeahPizza {
 		diameter = in.nextInt();
 		
 		System.out.println("Next, how many slices should this delicious pizza have? :D :");
-		slices = in.nextDouble();
+		slices = in.nextInt();
 		
 		System.out.println("Finally, how much should this pizza cost????: ");
 		price = in.nextDouble();
@@ -34,13 +34,18 @@ public class YeahPizza {
 		double costsq = price / pizza.area();
 		System.out.println("The pizza costs " + toMoney.format(costsq) + " per square inch.");
 		
-		double bites = pizza.area() / 2.5;
+		double bites = Math.ceil(pizza.area() / 2.5);
 		System.out.println("It will take " + bites + " bites to finish this pizza!");
 		
 		double sliceArea = pizza.area() / slices;
-		double sliceCrustLength = pizza.arc_length(360);
 		
-		System.out.println("More pizzas!!!!!!!!!!!");
+		int angle = 360 / slices;
+		double sliceCrustLength = pizza.arc_length(angle);
+		
+		System.out.println("Slice Area: " + sliceArea);
+		System.out.println("Crust Length of 1 Slice: " + sliceCrustLength);
+		
+		System.out.println("\nMore pizzas!!!!!!!!!!!\n");
 		
 		pizzaSmall = new Circle(5);
 		pizzaBig = new Circle(10);
