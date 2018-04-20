@@ -453,7 +453,7 @@ public class Canvas
      * Returns the current color of the background
      * @return   the color of the background of the Canvas
      */
-    private Color getBackgroundColor()
+    public Color getBackgroundColor()
     {
         return backgroundColor;
     }
