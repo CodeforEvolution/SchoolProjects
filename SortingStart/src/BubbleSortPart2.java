@@ -18,6 +18,20 @@ public class BubbleSortPart2 {
 		
 		System.out.println("Now sorted rolls in array: ");
 		printDiceArray(dieCup);
+		
+		//Avg + Median
+		double median = (dieCup[3].getValue() + dieCup[4].getValue()) / 2.0;
+		double sum = 0.0;
+		
+		for (int i = 0; i < dieCup.length; i++)
+		{
+			sum += dieCup[i].getValue();
+		}
+		
+		double average = sum / dieCup.length;
+		
+		System.out.println("Average of Values in Array: " + average);
+		System.out.println("Median of Values in Array: " + median);
 	}
 	
 	public static void sortDiceArray(Die[] inArray)
