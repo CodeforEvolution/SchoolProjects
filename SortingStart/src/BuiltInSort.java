@@ -56,7 +56,7 @@ public class BuiltInSort {
 		System.out.println("\nHere is your name array: ");
 		System.out.println(Arrays.toString(friends));
 		
-		Arrays.sort(friends);
+		Arrays.sort(friends, 0, 3);
 		
 		System.out.println("\nHere is your name array sorted: ");
 		System.out.println(Arrays.toString(friends));
@@ -65,20 +65,25 @@ public class BuiltInSort {
 		do
 		{
 			String name = "";
+			int currentIndex = 0;
 			int foundIndex = -1;
 			
 			System.out.println("\nWelcome to the even newer Google! (For arrays...)");
 			System.out.println("Please enter a name to find in the array: ");
-			name = in.next();
+			name = in.next().toLowerCase();
 			
 			System.out.println("\nSearching!!");
 			
-			for (int i = 0; i < friends.length; i++)
+			while (friends[currentIndex] != null)
 			{
-				if (friends[i] == name)
+				if (friends[currentIndex].equals(name) == true)
 				{
-					foundIndex = i;
+					foundIndex = currentIndex;
 					break;
+				}
+				else
+				{
+					currentIndex++;
 				}
 			}
 			
@@ -86,12 +91,73 @@ public class BuiltInSort {
 			{
 				System.out.println("Found " + name + " at index " + foundIndex);
 			}
+			else if (isArrayFull(friends) != true)
+			{
+				System.out.println("\nCouldn't find " + name + "! :(");
+				
+				boolean valid = false;
+				String response = "";
+				do
+				{
+					System.out.println("Would you like to add " + name + " to the array? (yes or no): ");
+					response = in.next().toLowerCase();
+					
+					if (response.equals("yes") || response.equals("no"))
+					{
+						valid = true;
+					}
+					else
+					{
+						System.out.println("\nThat was not a yes or no, GASP!");
+						System.out.println("I'll just ask again...");
+					}
+				} while (valid == false);
+				
+				if (in.next().equalsIgnoreCase("yes"))
+				{
+					friends[nextOpenIndex(friends)] = name;
+				}
+			}
 			else
 			{
-				System.out.println("Couldn't find " + name + "! :(");
-				System.out.println("Would you like to add " + name + " to the array?");
+				System.out.println("\nCouldn't find " + name + " in the array! D:");
 			}
 			
-		} while (full == false && again == 'y');
+			System.out.println("Would you like to continue searching? (y or n): ");
+			again = in.next().toLowerCase().charAt(0);
+			
+			if (again == 'y')
+			{
+				System.out.println("\nHere we go again!!!\n");
+			}
+			
+		} while (again == 'y');
+		
+		System.out.println("\nThank you for using me!!");
+	}
+	
+	public static boolean isArrayFull(String[] thearray)
+	{
+		boolean arrayfull = true;
+		
+		for(int i = 0; i < thearray.length; i++)
+		{
+			if (thearray[i] != null)
+			{
+				arrayfull = false;
+			}
+		}
+		
+		return arrayfull;
+	}
+	
+	public static int nextOpenIndex(String[] thearray)
+	{
+		int nextIndex = 0;
+		
+		while (thearray[nextIndex].isEmpty() == false)
+			nextIndex++;
+		
+		return nextIndex;
 	}
 }
