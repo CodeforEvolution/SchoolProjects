@@ -4,33 +4,35 @@ import java.util.ArrayList;
 public class ShiftTest {
 	public static void main(String[] args)
 	{
-		ArrayList<String> test = new ArrayList<String>();
+		ArrayList<String> test = new ArrayList<String>(10);
 		
 		test.add("Help");
-		test.add("");
 		test.add("Cake");
 		test.add("Lake");
-		
-		System.out.println("Old: ");
-		System.out.println(test);
-		
-		shiftTrimList(test);
-		
-		System.out.println("New: ");
-		System.out.println(test);
+		test.add("Jake");
+		test.add("Main");
+		test.add("Insane");
+		test.add("My brain");
+		test.add("Hey");
+		test.add("Test");
+		test.add("Best");
+		test.trimToSize()
+	
+		System.out.println("Array Full: " + isArrayFull(test));
 	}
 	
-	public static void shiftTrimList(ArrayList<String> theList)
+	public static <T> boolean isArrayFull(ArrayList<T> thearray)
 	{
-		for (int i = 1; i < theList.size(); i++)
+		boolean arrayfull = true;
+		
+		for (int i = 0; i < thearray.size(); i++)
 		{
-			if (theList.get(i - 1).equals("") == true)
+			if (thearray.get(i).equals("") || thearray.get(i).equals(null));
 			{
-				theList.set(i - 1, theList.get(i));
-				theList.set(i, "");
+				arrayfull = false;
 			}
 		}
 		
-		theList.trimToSize();
+		return arrayfull;
 	}
 }

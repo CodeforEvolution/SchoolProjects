@@ -7,7 +7,7 @@ public class BacktoArrayLists {
 	public static void main(String[] args)
 	{
 		//Activity 6
-		ArrayList<String> concert = new ArrayList<String>(8);
+		ArrayList<String> concert = new ArrayList<String>();
 		ArrayList<String> waiters = new ArrayList<String>();
 		Scanner in = new Scanner(System.in);
 		
@@ -26,6 +26,7 @@ public class BacktoArrayLists {
 		System.out.println(concert);
 		
 		Collections.sort(concert);
+		
 		System.out.println("\nThe now sorted array: ");
 		System.out.println(concert);
 		
@@ -74,9 +75,9 @@ public class BacktoArrayLists {
 					System.out.println("\n" + search + " is a goner! >:D");
 				}
 			}
-			else if (isArrayFull(concert) == false)
+			else if (isArrayFull(concert, 8) == false)
 			{
-				System.out.println("Could not find the musical group: " + search);
+				System.out.println("\nCould not find the musical group: " + search);
 				
 				char hmm = ' ';
 				do
@@ -98,7 +99,7 @@ public class BacktoArrayLists {
 			}
 			else
 			{
-				System.out.println("Could not find the musical group: " + search);
+				System.out.println("\nCould not find the musical group: " + search);
 				System.out.println("We can't book your group currently..."); 
 				System.out.println("Though, we can add them to a waiting list.");
 				
@@ -138,7 +139,7 @@ public class BacktoArrayLists {
 					System.out.println("That's not a yes or no, I'll ask again...\n");
 				}
 			} while (again != 'y' && again != 'n');
-		} while (isArrayFull(concert) == false && again == 'y');
+		} while (again == 'y');
 		
 		System.out.println("Thank you for searching!!!!\n");
 		
@@ -149,7 +150,7 @@ public class BacktoArrayLists {
 		{
 			if (concert.get(i).trim().contains(" ") == true)
 			{
-				System.out.print(concert.get(i) + " ");
+				System.out.print("'" + concert.get(i) + "' ");
 				multi++;
 			}
 		}
@@ -162,17 +163,25 @@ public class BacktoArrayLists {
 		//Welp, goodbye!
 	}
 	
-	public static <T> boolean isArrayFull(ArrayList<T> thearray)
+	public static <T> boolean isArrayFull(ArrayList<T> thearray, int size)
 	{
 		boolean arrayfull = true;
 		
-		for(int i = 0; i < thearray.size(); i++)
+		if (thearray.size() < 8)
 		{
-			if (thearray.get(i) != null)
+			arrayfull = false;
+		}
+		else
+		{
+			for (int i = 0; i < size - 1; i++)
 			{
-				arrayfull = false;
+				if (thearray.get(i).equals(""))
+				{
+					arrayfull = false;
+				}
 			}
 		}
+		
 		
 		return arrayfull;
 	}
@@ -187,15 +196,27 @@ public class BacktoArrayLists {
 			{
 				if (waiting.get(i).equals("") == false)
 				{
-					for (int c = current.size() - 1; c > -1; c--)
+					if (current.size() < 8)
 					{
-						if (current.get(c).equals("") == false)
+						current.add(waiting.get(i));
+						System.out.println("\nTransferred " + waiting.get(i) + " off the waiting list! Welcome!");
+						waiting.remove(i);
+						shiftTrimList(waiting);
+					}
+/*					else
+					{
+						for (int c = 7; c > -1; c--)
 						{
-							current.set(c + 1, waiting.get(i));
-							System.out.println("\nTransferred " + waiting.get(i) + " off the waiting list! Welcome!");
+							if (current.get(c).equals() == true)
+							{
+								current.set(c, waiting.get(i));
+								System.out.println("\nTransferred " + waiting.get(i) + " off the waiting list! Welcome!");
+								waiting.remove(i);
+								shiftTrimList(waiting);
+							}
 						}
 					}
-				}
+*/				}
 			}
 		}
 		
