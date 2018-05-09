@@ -203,20 +203,7 @@ public class BacktoArrayLists {
 						waiting.remove(i);
 						shiftTrimList(waiting);
 					}
-/*					else
-					{
-						for (int c = 7; c > -1; c--)
-						{
-							if (current.get(c).equals() == true)
-							{
-								current.set(c, waiting.get(i));
-								System.out.println("\nTransferred " + waiting.get(i) + " off the waiting list! Welcome!");
-								waiting.remove(i);
-								shiftTrimList(waiting);
-							}
-						}
-					}
-*/				}
+				}
 			}
 		}
 		
