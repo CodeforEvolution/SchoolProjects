@@ -138,9 +138,9 @@ public class ArraysIIForStringsII {
 			char[] splitup = words[i].toCharArray();
 			ArrayList<Integer> vowelpos = new ArrayList<Integer>();
 			
-			for (int v = 0; v < splitup.length; i++)
+			for (int v = 0; v < splitup.length; v++)
 			{
-				switch (Character.toLowerCase(splitup[i]))
+				switch (Character.toLowerCase(splitup[v]))
 				{
 					case 'a':
 					case 'e':
@@ -154,12 +154,12 @@ public class ArraysIIForStringsII {
 				}
 			}
 			
-			for (int s = 0; s < (vowelpos.size() / 2); s++)
+			for (int s = 0; s < (vowelpos.size() / 2) ; s++)
 			{
-				
+				char temp = splitup[vowelpos.get(s)];
+				splitup[vowelpos.get(s)] = splitup[vowelpos.get(vowelpos.size() - 1 - s)];
+				splitup[vowelpos.get(vowelpos.size() - 1 - s)] = temp;
 			}
-			
-			
 			
 			words[i] = new String(splitup);
 		}
