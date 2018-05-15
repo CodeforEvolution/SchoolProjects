@@ -10,18 +10,17 @@ public class CupGame {
 	final static int CUPHEIGHT = 150;
 	final static int BALLWIDTH = 40;
 	final static int BALLHEIGHT = 40;
+	final static int CUPY = 100;
+	final static int BALLY = 300;
+	
+	static int[] ballpos = new int[3];
+	static int[] cuppos = new int[3];
+	
+	static int curBallPos = 0;
 	
 	public static void main(String[] args)
 	{
 		char again = 'n';
-		int[] ballpos = new int[3];
-		int[] cuppos = new int[3];
-		
-		boolean win = false;
-		int curBallPos = 0;
-		int level = 1;
-		int guess = 0;
-		int cupSpeed = 1;
 		
 		ballpos[0] = 125;
 		cuppos[0] = 100;
@@ -31,6 +30,11 @@ public class CupGame {
 		
 		ballpos[2] = 525;
 		cuppos[2] = 500;
+		
+		boolean win = false;
+		int level = 1;
+		int guess = 0;
+		int cupSpeed = 1;
 		
 		Canvas thegame = new Canvas("The Hidden Ball Guessing Game", 750, 500, Color.BLACK);
 		Random r = new Random();
@@ -64,27 +68,39 @@ public class CupGame {
 			drawCup(thegame, cuppos[2], 100);
 			
 			curBallPos = r.nextInt(3);
-			drawBall(thegame, ballpos[curBallPos], 300);
+			drawBall(thegame, ballpos[curBallPos], BALLY);
 			
 			System.out.println("\n========================================");
 			System.out.println("Click on the canvas when ready to play!");
 			thegame.waitForClick();
 			
-			eraseBall(thegame, ballpos[curBallPos], 300);
+			eraseBall(thegame, ballpos[curBallPos], BALLY);
 			
 			System.out.println("\nShuffling cups...");
 			
-			cupSpeed = level * 4;
+			cupSpeed = level * 2;
 			for (int i = 0; i < 5; i++)
 			{
-				swapCups(thegame, cuppos[r.nextInt(3)], 100, cuppos[r.nextInt(3)], 100, cupSpeed);
+				int cup1dex = r.nextInt(3);
+				int cup2dex = r.nextInt(3);
+				
+				int otherdex;
+				
+				if (cup1dex != 0 && cup2dex != 0)
+					otherdex = 0;
+				else if (cup1dex != 1 && cup2dex != 1)
+					otherdex = 1;
+				else
+					otherdex = 2;
+				
+				swapCups(thegame, cup1dex, cup2dex, otherdex, cupSpeed);
 			}
 			
 			
 			do
 			{
 				System.out.println("\nLook at the window to see how the cups are numbered.");
-				System.out.println("Alright now which cup is the ball under?: ");
+				System.out.println("Alright now which cup is the ball under? (0-2) : ");
 				guess = in.nextInt();
 			
 				if (guess > 2 || guess < 0)
@@ -100,15 +116,15 @@ public class CupGame {
 			
 			if (guess == curBallPos)
 			{
-				moveUpCup(thegame, cuppos[guess], 100);
+				drawBall(thegame, ballpos[curBallPos], BALLY);
 				win = true;
-				System.out.println("You did it!!!! Congrats!");
+				System.out.println("\nYou did it!!!! Congrats!");
 			}
 			else
 			{
-				moveUpCup(thegame, cuppos[guess], 100);
+				drawBall(thegame, ballpos[curBallPos], BALLY);
 				win = false;
-				System.out.println("Welp, that wasn't the cup...game over!\n");
+				System.out.println("\nWelp, that wasn't the cup...game over!\n");
 			}
 			
 			if (win == true)
@@ -132,7 +148,6 @@ public class CupGame {
 		System.out.println("\nThank you for playing the hidden ball guessing game!");
 		System.out.println("You finished at level: " + level + "!");
 		System.out.println("Goodbye!");
-		
 	}
 	
 	public static void drawCup(Canvas thecanvas, int thex, int they)
@@ -163,30 +178,51 @@ public class CupGame {
 	{
 		Color prevColor = thecanvas.getInkColor();
 		thecanvas.setInkColor(thecanvas.getBackgroundColor());
-		thecanvas.drawFilledRectangle(thex, they, BALLWIDTH, BALLHEIGHT);
+		thecanvas.drawFilledRectangle(thex, they, BALLWIDTH + 1, BALLHEIGHT + 1);
 		thecanvas.setInkColor(prevColor);
 	}
 	
-	public static void swapCups(Canvas thecanvas, int cup1x, int cup1y, int cup2x, int cup2y, int swapSpeed)
+	public static void moveDownBall(Canvas thecanvas, int ballx, int bally)
 	{
-		int current1x = cup1x;
-		int target1x = cup2x;
-		int current2x = cup2x;
-		int target2x = cup1x;
 		
-		if (cup1x == cup2x)
+	}
+	
+	public static void swapCups(Canvas thecanvas, int cup1index,int cup2index,
+									int otherindex, int swapSpeed)
+	{	
+		if (cup1index == cup2index)
+		{
 			return; //No cup switching this time...
+		}
 		
-		while(current1x != cup2x && current2x != cup1x)
+		int current1x = cuppos[cup1index];
+		int target1x = cuppos[cup2index];
+		int current2x = cuppos[cup2index];
+		int target2x = cuppos[cup1index];
+		int otherx = cuppos[otherindex];
+		
+		//Handle Ball Switch
+		if (curBallPos == cup1index)
+		{
+			curBallPos = cup2index;
+		}
+		else
+		{
+			curBallPos = cup1index;
+		}
+		
+		while(current1x != target1x && current2x != target2x)
 		{
 			//Start the draw cycle!
-			drawCup(thecanvas, current1x, cup1y);
-			drawCup(thecanvas, current2x, cup2y);
+			drawCup(thecanvas, current1x, CUPY);
+			drawCup(thecanvas, current2x, CUPY);
+			drawCup(thecanvas, otherx, CUPY);
 			
-			thecanvas.pause(10 * swapSpeed);
+			thecanvas.pause(10 / swapSpeed);
 			
-			eraseCup(thecanvas, current1x, cup1y);
-			eraseCup(thecanvas, current2x, cup2y);
+			eraseCup(thecanvas, current1x, CUPY);
+			eraseCup(thecanvas, current2x, CUPY);
+			eraseCup(thecanvas, otherx, CUPY);
 			
 			if (current1x > target1x)
 			{
@@ -206,15 +242,10 @@ public class CupGame {
 				current2x++;
 			}
 		}
-		drawCup(thecanvas, current1x, cup1y);
-		drawCup(thecanvas, current2x, cup2y);
+		drawCup(thecanvas, current1x, CUPY);
+		drawCup(thecanvas, current2x, CUPY);
+		drawCup(thecanvas, otherx, CUPY);
 		
 		return;
 	}
-	
-	public static void moveUpCup(Canvas thecanvas, int thex, int they)
-	{
-		
-	}
-	
 }

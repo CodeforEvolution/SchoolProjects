@@ -27,7 +27,7 @@ public class Canvas
     protected CanvasPane canvas;
     private Graphics2D graphic;
     private Color backgroundColor;
-   private Color inkColor;
+    private Color inkColor;
     private Image canvasImage;
     private Point clickedPoint;         // IAT
 
