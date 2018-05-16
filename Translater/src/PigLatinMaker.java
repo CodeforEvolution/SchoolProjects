@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -5,62 +6,105 @@ public class PigLatinMaker {
 	public static void main(String[] args)
 	{
 		Scanner in = new Scanner(System.in);
-		String word = "";
-		String pigword = "";
-		boolean ycheck = false;
+		String input = "";
+		ArrayList<String> splitwords = new ArrayList<String>();
+		String pigoutput = "";
 		
 		System.out.println("Oink, oink! It's the English to Pig Latin Translater!");
-		System.out.println("What word would you like to translate?: ");
-		word = in.next();
+		System.out.println("Enter word or sentence to translate please! : ");
+		
+		input = in.next();
 		
 		System.out.println("\nIt's translating time! Let's see...");
 		
-		pigword = word;
-		
-		if (pigword.charAt(0) != 'y' && pigword.charAt(0))
+		int currentIndex = 0;
+		String tempword = "";
+		boolean more = false;
+		do
 		{
-			for (int i = 0; i < pigword.length(); i++)
+			if (input.charAt(currentIndex) != ' ')
 			{
-				if (pigword.charAt(i) == 'y')
-				{
-					
-				}
+				tempword += input.charAt(currentIndex);
 			}
-		}
-		
-		if (isVowel(pigword.charAt(0)) == true)
-		{
-			pigword += "way";
-		}
-		else if (ycheck == true)
-		{
-			String 
-		}
-		else if (pigword.charAt(0) == 'q' && pigword.charAt(1) == 'u') 
-		{
-			String temp = pigword.substring(0, 2);
-			pigword = pigword.substring(2) + temp + "ay";
-		}
-		else if (isVowel(word.charAt(0)) == false && isVowel(word.charAt(1)) == false
-					&& isVowel(word.charAt(2)) == false && isVowel(word.charAt(3)) == true)
-		{
-			int i = 0;
-			while (isVowel(word.charAt(i)) == false && i < 3)
+			else
 			{
-				char temp = pigword.charAt(0);
-				pigword = pigword.substring(1);
-				pigword += temp;
-				i++;
+				splitwords.add(tempword);
+				tempword = "";
+			}
+			currentIndex++;
+			
+			more = true;
+			try {
+				input.charAt(currentIndex);
+			} catch (java.lang.IndexOutOfBoundsException e) {
+				more = false;
 			}
 			
-			pigword += "ay";
-		}
-		else
+		} while (more == true);
+		
+		System.out.println(splitwords);
+		
+		for (int i = 0; i < splitwords.size(); i++)
 		{
-			pigword += "way";
+			System.out.println("word: " + splitwords.get(i));
+		}
+
+		for (int c = 0; c < splitwords.size(); c++)
+		{
+			String current = splitwords.get(c);
+			
+			if (isVowel(current.charAt(0)) == true)
+			{
+				current += "way";
+			}
+			else if (current.charAt(0) != 'y' && current.contains("y") == true)
+			{
+				int ycheck = 0;
+				
+				for (int i = 0; i < current.indexOf("y"); i++)
+				{
+					if (isVowel(current.charAt(i)) == false)
+					{
+						ycheck++;
+					}
+					else
+					{
+						continue;
+					}
+				}
+				
+				String temp = current.substring(0, ycheck);
+				current = current.substring(ycheck);
+				current += temp + "ay";
+			}
+			else if (current.charAt(0) == 'q' && current.charAt(1) == 'u') 
+			{
+				String temp = current.substring(0, 2);
+				current = current.substring(2) + temp + "ay";
+			}
+			else if (isVowel(input.charAt(0)) == false /*&& isVowel(word.charAt(1)) == false
+						&& isVowel(word.charAt(2)) == false && isVowel(word.charAt(3)) == true*/)
+			{
+				int i = 0;
+				while (isVowel(input.charAt(i)) == false && i < 3)
+				{
+					char temp = current.charAt(0);
+					current = current.substring(1);
+					current += temp;
+					i++;
+				}
+				
+				current += "ay";
+			}
+			else
+			{
+				current += "way";
+			}
+			
+			pigoutput += current + " ";
 		}
 		
-		System.out.println("\nYour translated word is: " + pigword);
+		System.out.println("\nYour translated word/sentence is: " + pigoutput);
 	}
 	
 	public static boolean isVowel(char theChar)
