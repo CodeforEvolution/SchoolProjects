@@ -77,12 +77,29 @@ public class PigLatinMaker {
 		String pigOut = englishIn;
 		boolean needsCapital = false;
 		
-		if (Character.isUpperCase(pigOut.charAt(0)) == true)
+		//Pre-checks
+		if (Character.isUpperCase(pigOut.charAt(0)) == true && 
+			Character.isUpperCase(pigOut.charAt(1)) == false)
 		{
 			needsCapital = true;
 			pigOut = pigOut.toLowerCase();
 		}
 		
+		boolean anyVowels = false;
+		boolean anyNumbers = false;
+		
+		for (int i = 0; i < pigOut.length(); i++)
+		{
+			if (isVowel(pigOut.charAt(i)) == true)
+				anyVowels = true;
+		}
+		
+		if (anyVowels == false || anyNumbers == true)
+		{
+			return pigOut + "way";
+		}
+		
+		//Main word check
 		if (isVowel(pigOut.charAt(0)) == true)
 		{
 			pigOut += "way";
@@ -137,6 +154,32 @@ public class PigLatinMaker {
 		}
 		
 		return pigOut;
+	}
+	
+	public static boolean isNumber(char theChar)
+	{
+		boolean number = false;
+		
+		switch (theChar)
+		{
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+				number = true;
+				break;
+			default:
+				number = false;
+				break;
+		}
+		
+		return number;
 	}
 	
 	public static boolean isVowel(char theChar)
