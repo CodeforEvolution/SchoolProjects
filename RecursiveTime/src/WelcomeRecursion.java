@@ -70,7 +70,7 @@ public class WelcomeRecursion {
 		
 		finalInt = fibonacciTermAt(theInt);
 		
-		System.out.println("At term " + theInt + ", the fibonacci sequence contains: " + finalInt);
+		System.out.println("\nAt term " + theInt + ", the fibonacci sequence contains: " + finalInt);
 	}
 	
 	public static int sumSquares(int inInt)
@@ -139,10 +139,13 @@ public class WelcomeRecursion {
 		{
 			return 0;
 		}
+		else if (term <= 2)
+		{
+			return 1;
+		}
 		else
 		{
-			//Implement
-			return 0;
+			return fibonacciTermAt(term - 1) + fibonacciTermAt(term - 2);
 		}
 	}
 	
