@@ -15,5 +15,7 @@ public class NormalDay {
 		scene.drawString("Welcome to My World", 350, 50);
 		
 		Person bob = new Person(scene, new Point(500, 500), Color.BLUE);
+		
+		bob.move(new Point (100, 100), 2);
 	}
 }
