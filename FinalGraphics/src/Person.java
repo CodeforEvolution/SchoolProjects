@@ -38,8 +38,8 @@ public class Person {
 		Color prevState = drawSurface.getInkColor();
 		drawSurface.setInkColor(drawSurface.getBackgroundColor());
 		
-		drawSurface.drawFilledOval(where.x, where.y - 1, 65, 70);		
-		drawSurface.drawFilledRectangle(where.x, where.y, 60, 150);
+		drawSurface.drawFilledOval(where.x - 10, where.y - 10, 55, 65);		
+		drawSurface.drawFilledRectangle(where.x - 10, where.y, 70, 130);
 		
 		drawSurface.setInkColor(prevState);
 	}
@@ -80,12 +80,40 @@ public class Person {
 	
 	public void moveUD(int toY, int seconds)
 	{
+		if (myPos.y == toY)
+			return;
+		
+		if (myPos.y > toY)
+		{
+			for (int i = myPos.y; i > toY; i--)
+			{
+				erase(new Point(myPos.x, i));
+				draw(new Point(myPos.x, i));
+				drawSurface.pause(5);
+			}
+		}
+		else
+		{
+			for (int i = myPos.y; i < toY; i++)
+			{
+				erase(new Point(myPos.x, i));
+				draw(new Point(myPos.x, i));
+				drawSurface.pause(5);
+			}
+		}
+		
+		myPos = new Point(myPos.x, toY);
+	}
+	
+	public void move(Point to, int seconds)
+	{
 		
 	}
 	
 	public void setColor(Color theColor)
 	{
 		color = theColor;
+		draw(myPos);
 	}
 	
 	public void sayHello()

@@ -25,6 +25,23 @@ public class Airplane {
 		drawSurface.setInkColor(color);
 		
 		drawSurface.drawOval(where.x, where.y, 100, 100);
+		drawSurface.drawLine(where.x + 20, where.y + 10, where.x - 60, where.y + 50);
+		drawSurface.drawLine(where.x - 60, where.y + 50, where.x + 20, where.y + 90);
+		drawSurface.drawLine(where.x + 80, where.y + 10, where.x + 130, where.y + 50);
+		drawSurface.drawLine(where.x + 130, where.y + 50, where.x + 80, where.y + 90);
+		drawSurface.drawFilledOval(where.x + 30, where.y + 20, 70, 30);
+		
+		int[] tailX = new int[3];
+		tailX[0] = where.x + 90;
+		tailX[1] = where.x - 10;
+		tailX[2] = where.x;
+		
+ 		int[] tailY = new int[3];
+		tailY[0] = where.y + 20;
+		tailY[1] = where.y + 5;
+		tailY[2] = where.y - 55;
+		
+		drawSurface.drawFilledPolygon(tailX, tailY, 3);
 		
 		drawSurface.setInkColor(prevState);
 	}
@@ -34,7 +51,7 @@ public class Airplane {
 		Color prevState = drawSurface.getInkColor();
 		drawSurface.setInkColor(drawSurface.getBackgroundColor());
 		
-		drawSurface.drawFilledOval(where.x - 10, where.y - 10, 125, 125);
+		drawSurface.drawFilledRectangle(where.x - 65, where.y - 60, 205, 180);
 		
 		drawSurface.setInkColor(prevState);
 	}
@@ -75,12 +92,35 @@ public class Airplane {
 	
 	public void moveUD(int toY, int seconds)
 	{
+		if (myPos.y == toY)
+			return;
 		
+		if (myPos.y > toY)
+		{
+			for (int i = myPos.y; i > toY; i--)
+			{
+				erase(new Point(myPos.x, i));
+				draw(new Point(myPos.x, i));
+				drawSurface.pause(5);
+			}
+		}
+		else
+		{
+			for (int i = myPos.y; i < toY; i++)
+			{
+				erase(new Point(myPos.x, i));
+				draw(new Point(myPos.x, i));
+				drawSurface.pause(5);
+			}
+		}
+		
+		myPos = new Point(myPos.x, toY);
 	}
 	
 	public void setColor(Color theColor)
 	{
 		color = theColor;
+		draw(myPos);
 	}
 	
 	public void airplaneStart()
