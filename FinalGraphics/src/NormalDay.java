@@ -18,14 +18,14 @@ public class NormalDay {
 		
 		Person bob = new Person(scene, new Point(500, 500), Color.BLUE);
 		Airplane jim = new Airplane(scene, new Point(500, 800), Color.ORANGE);
-/*		
+		
 		bob.moveLR(600, 2);
 		jim.moveLR(300, 2);
 		bob.moveUD(200, 2);
 		jim.moveUD(900, 2);
 		bob.moveUD(500, 2);
 		jim.moveUD(200, 2);
-*/		
+		
 		for (int i = 0; i < 100; i++)
 		{
 			bob.setColor(colorAtIndex(r.nextInt(12)));
